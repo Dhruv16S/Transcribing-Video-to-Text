@@ -1,3 +1,4 @@
 env
 __pycache__
 model.pth
+model.pth.tar.gz
