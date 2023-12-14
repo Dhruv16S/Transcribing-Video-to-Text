@@ -9,7 +9,7 @@ if not os.path.exists(output_directory):
 output_file = f'{output_directory}/{len(os.listdir(output_directory))}_transcript.txt'
 
 def create_transcript(transcript_method):
-    cleaned_audio_path = './audio/cleaned/cleaned_audio.wav'
+    cleaned_audio_path = './audio/cleaned/cleaned_audio.mp3'
     original_audio_path = './audio/original/audio_extracted.mp3'
     transcript = f'Speech to Text through {transcript_method}\n'
 
