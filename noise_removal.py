@@ -1,8 +1,4 @@
-# Something called a Wiener filter is used to remove noise.
-# Have to look it up further or check for a DL approach.
-
 import librosa
-import numpy as np
 from pydub import AudioSegment
 import os
 from plots import *
