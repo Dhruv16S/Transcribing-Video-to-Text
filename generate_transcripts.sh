@@ -2,14 +2,14 @@
 if [ "$#" -ne 2 ]
 then
     echo "Usage: $0 <path_to_audio_file> <transcription_method>"
-    echo "<transcription_method>: asr or wav2vec"
+    echo "<transcription_method>: whisper or wav2vec"
     exit 1
 fi
 
-if [ "$2" != "asr" ] && [ "$2" != "wav2vec" ]
+if [ "$2" != "whisper" ] && [ "$2" != "wav2vec" ]
 then
-    echo "Invalid transcription method. Please choose 'asr' or 'wav2vec'."
-    echo "Usage: $0 <path_to_audio_file> <transcription_method>"
+    printf "\nInvalid transcription method. Please choose 'whisper' or 'wav2vec'.\n"
+    printf "Usage: $0 <path_to_audio_file> <transcription_method>\n\n"
     exit 1
 else
     transcript_method="$2"
