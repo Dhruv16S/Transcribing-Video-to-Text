@@ -62,7 +62,6 @@ pydub==0.25.1
 Pygments==2.17.2
 pyparsing==3.1.1
 python-dateutil==2.8.2
-pywin32==306
 pyzmq==25.1.2
 regex==2023.10.3
 requests==2.31.0
@@ -76,9 +75,9 @@ stack-data==0.6.3
 sympy==1.12
 threadpoolctl==3.2.0
 tiktoken==0.5.2
-torch==2.1.1+cu121
-torchaudio==2.1.1+cu121
-torchvision==0.16.1+cu121
+# torch==2.1.1+cu121
+# torchaudio==2.1.1+cu121
+# torchvision==0.16.1+cu121
 tornado==6.4
 tqdm==4.66.1
 traitlets==5.14.0
