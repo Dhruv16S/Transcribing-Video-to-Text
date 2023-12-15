@@ -13,7 +13,7 @@ def create_transcript(transcript_method):
     cleaned_audio_path = './audio/cleaned/cleaned_audio.mp3'
     original_audio_path = './audio/original/audio_extracted.mp3'
     transcript = f'Speech to Text through {transcript_method}\n'
-    output_file = f'{output_directory}/{transcript_method}_{len(os.listdir(output_directory))}_transcript.txt'
+    output_file = f'{output_directory}/{transcript_method}_transcript.txt'
 
     if transcript_method == 'wav2vec':
         model_path = 'model.pth'
