@@ -17,6 +17,7 @@ filelock==3.9.0
 Flask==3.0.0
 fonttools==4.46.0
 fsspec==2023.4.0
+gunicorn==21.2.0
 idna==3.6
 imageio==2.33.1
 imageio-ffmpeg==0.4.9
