@@ -1,3 +1,5 @@
+# For generating scripts through CLI. Find the transcript in the output folder.
+
 from utils import load_wav2vec2_asr_model, transcribe_audio
 import os
 import sys

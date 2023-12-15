@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Transcribing Videos to Text</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <section id="hero" class="hero d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 d-flex flex-column justify-content-center">
+            <h1>Transcribing Videos to Text</h1>
+            <h2>Upload a video as a .mp4 and download the audio files (.mp3) along with the gernerated transcript.</h2>
+            <div>
+              <form id="generateForm" action="/generate" method="POST" onsubmit="showLoading()">
+                <div class="mb-3" style="padding-top: 25px;">
+                  <label for="formFile" class="form-label">Choose a video</label>
+                  <input class="form-control" type="file" id="formFile" accept=".mp4">
+                </div>
+                <div class="text-center text-lg-start">
+                  <button id="submit" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">Generate Transcript</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-lg-6 contents">
+            <div id="loading-screen" class="loading-screen">
+                <div class="spinner"></div>
+                <p>Transcribing</p>
+            </div> 
+            <h3>Original audio</h3>
+            <audio controls style="padding-top: 20px;">
+              <source id="original-audio" src="../audio/original/audio_extracted.mp3" type="audio/mpeg">
+            </audio>
+            <h3>Audio without background</h3>
+            <audio controls style="padding-top: 20px;">
+              <source id="cleaned-audio" src="../audio/cleaned/cleaned_audio.mp3" type="audio/mpeg">
+            </audio>
+            <h3>Transcribed Text</h3>
+            <textarea class="form-control" id="transcription" readonly rows="5">Human progress is measured by industry. It's measured by the value you place on life. An unimportant life. A life without privilege, boy who died on the river, that boy's value is your value. That's what defines an age. That's what defines a species.
+            </textarea>
+            <a id="download-button" download="generated_image.png" href="{{ url_for('static', filename='./gen.png') }}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">Download Files</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+        function showLoading() {
+          document.getElementById("loading-screen").style.display = "flex";
+          document.getElementById("download-button").style.display = "none";
+        }
+        function hideLoading() {
+          document.getElementById("loading-screen").style.display = "none";
+            document.getElementById("download-button").style.display = "inline-block";
+        }
+      </script>
+  </body>
+  
+</html>
