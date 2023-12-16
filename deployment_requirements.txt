@@ -6,3 +6,4 @@ noisereduce
 numba
 openai-whisper
 pydub
+urllib3==1.26.6
