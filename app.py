@@ -49,6 +49,9 @@ def index():
 
 @app.route('/generate', methods=['GET', 'POST'])
 def generate():
+    output_directory = "./videos"
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
     if request.method == 'POST':
         file = request.files['formFile']
         if file and allowed_file(file.filename):
