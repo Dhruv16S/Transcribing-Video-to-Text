@@ -6,11 +6,13 @@ import zipfile
 import subprocess
 from werkzeug.utils import secure_filename
 import shutil
+import whisper
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = './videos'
 ALLOWED_EXTENSIONS = {'mp4'}
+TRANSCRIPT_OUTPUT_FILE = './output/whisper_transcript.txt'
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 
@@ -19,8 +21,18 @@ def allowed_file(filename):
     return '.' in filename and filename.split('.')[1].lower() in ALLOWED_EXTENSIONS
 
 def generate_files(video_path):
-    gen_command = f"bash ./generate_transcripts.sh {video_path} whisper"
+    gen_command = f"bash ./generate_transcripts.sh {video_path}"
     subprocess.run(gen_command, shell=True, capture_output=True, text=True)
+    try:
+        model = whisper.load_model("base")
+        result = model.transcribe("./audio/cleaned/cleaned_audio.mp3")["text"]
+    except Exception as e:
+        result = f"Error: Could not transcribe as {e}"
+    output_directory = "./output"
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+    with open(TRANSCRIPT_OUTPUT_FILE, 'w+') as file:
+        file.write(result)
     copy_command = f"bash ./copy_directory.sh"
     subprocess.run(copy_command, shell=True, capture_output=True, text=True)
     original_audio_path = 'static/audio/original/audio_extracted.mp3'
