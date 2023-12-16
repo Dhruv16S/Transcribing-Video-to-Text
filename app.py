@@ -7,6 +7,32 @@ import subprocess
 from werkzeug.utils import secure_filename
 import shutil
 import whisper
+from moviepy.editor import *
+import librosa
+from pydub import AudioSegment
+import noisereduce as nr
+from scipy.io import wavfile
+
+def extract_audio(video_path):
+    output_directory = "./audio/original"
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+    output_path = f"{output_directory}/audio_extracted.mp3"
+
+    video = VideoFileClip(str(video_path)) 
+    audio = video.audio
+    audio.write_audiofile(str(output_path))
+
+def noise_removal():
+    audio_path = './audio/original/audio_extracted.mp3'
+    audio, sr = librosa.load(audio_path, sr=None)
+    noise_reduced_audio = nr.reduce_noise(y=audio, sr=sr)
+    output_directory = "./audio/cleaned"
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+    wavfile.write(f'{output_directory}/cleaned_audio.wav', sr, noise_reduced_audio)
+    audio = AudioSegment.from_wav(f'{output_directory}/cleaned_audio.wav')
+    audio.export(f'{output_directory}/cleaned_audio.mp3', format='mp3')
 
 app = Flask(__name__)
 
@@ -21,8 +47,13 @@ def allowed_file(filename):
     return '.' in filename and filename.split('.')[1].lower() in ALLOWED_EXTENSIONS
 
 def generate_files(video_path):
-    gen_command = f"bash ./generate_transcripts.sh {video_path}"
-    subprocess.run(gen_command, shell=True, capture_output=True, text=True)
+
+    # gen_command = f"bash ./generate_transcripts.sh {video_path}"
+    # subprocess.run(gen_command, shell=True, capture_output=True, text=True)
+    # Python implementation of above codes
+    extract_audio(video_path)
+    noise_removal()
+
     try:
         model = whisper.load_model("base")
         result = model.transcribe("./audio/cleaned/cleaned_audio.mp3")["text"]
@@ -33,8 +64,11 @@ def generate_files(video_path):
         os.makedirs(output_directory)
     with open(TRANSCRIPT_OUTPUT_FILE, 'w+') as file:
         file.write(result)
-    copy_command = f"bash ./copy_directory.sh"
-    subprocess.run(copy_command, shell=True, capture_output=True, text=True)
+
+    # copy_command = f"bash ./copy_directory.sh"
+    # subprocess.run(copy_command, shell=True, capture_output=True, text=True)
+    shutil.move('./audio', './static/')
+
     original_audio_path = 'static/audio/original/audio_extracted.mp3'
     cleaned_audio_path = 'static/audio/cleaned/cleaned_audio.mp3'
     with open('./output/whisper_transcript.txt', 'r') as file:
@@ -74,8 +108,8 @@ def generate():
 
 @app.route('/download', methods=['GET'])
 def download():
-    original_audio_path = './audio/original/audio_extracted.mp3'
-    cleaned_audio_path = './audio/cleaned/cleaned_audio.mp3'
+    original_audio_path = './static/audio/original/audio_extracted.mp3'
+    cleaned_audio_path = './static/audio/cleaned/cleaned_audio.mp3'
     transcript_path = './output/whisper_transcript.txt'
 
     with zipfile.ZipFile('generated_files.zip', 'w') as zipf:
@@ -84,9 +118,8 @@ def download():
         zipf.write(transcript_path, os.path.basename(transcript_path))
 
     # Cleaning up directories
-    shutil.rmtree('./audio')
+    shutil.rmtree('./videos')
     shutil.rmtree('./output')
-    shutil.rmtree('./graphs')
     shutil.rmtree('./static/audio')
 
     return send_from_directory('.', 'generated_files.zip', as_attachment=True)

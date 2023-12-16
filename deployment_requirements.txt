@@ -1,7 +1,6 @@
 Flask
 gunicorn
 librosa
-matplotlib
 moviepy
 noisereduce
 numba
