@@ -4,5 +4,5 @@ librosa
 moviepy
 noisereduce
 numba
-whisper
+openai-whisper
 pydub
