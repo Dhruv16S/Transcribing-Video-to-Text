@@ -8,3 +8,4 @@ openai-whisper
 pydub
 streamlit
 streamlit-ext
+ffmpeg
