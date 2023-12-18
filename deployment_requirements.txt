@@ -6,3 +6,4 @@ noisereduce
 numba
 openai-whisper
 pydub
+streamlit

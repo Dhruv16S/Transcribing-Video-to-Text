@@ -100,11 +100,19 @@ def generate():
                     item_path = os.path.join(UPLOAD_FOLDER, item)
                     os.remove(item_path)
 
-            return render_template('index.html', original_audio=original_audio,
-                                   cleaned_audio=cleaned_audio, transcript=transcript)
+            # return render_template('index.html', original_audio=original_audio,
+            #                        cleaned_audio=cleaned_audio, transcript=transcript)
+            return {
+                "original_audio": original_audio,
+                "cleaned_audio": cleaned_audio,
+                "transcript": transcript
+            }
 
-    return render_template('index.html', original_audio=None,
-                                   cleaned_audio=None, transcript=None)
+    return {
+        "original_audio":None,
+        "cleaned_audio":None, 
+        "transcript":None
+        }
 
 @app.route('/download', methods=['GET'])
 def download():
