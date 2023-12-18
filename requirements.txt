@@ -7,3 +7,4 @@ numba
 openai-whisper
 pydub
 streamlit
+streamlit-ext
