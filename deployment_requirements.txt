@@ -1,9 +1,0 @@
-Flask
-gunicorn
-librosa
-moviepy
-noisereduce
-numba
-openai-whisper
-pydub
-streamlit
